@@ -27,15 +27,15 @@ if (len(cookies) > 1):
 fail = 0
 for no in range(len(cookies)):
     logging.info(f'Verifiying cookies number: {no+1}')
+
     header = {
-        'User-Agent': os.environ.get(
-            'USER_AGENT', 
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.47'
-        ),
-        'Referer': 'https://act.hoyolab.com',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Cookie': cookies[no]
-    }
+                'x-rpc-app_version': '2.34.1',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
+                'x-rpc-client_type': '4',
+                'Referer': 'https://webstatic.mihoyo.com/',
+                'Origin': 'https://webstatic.mihoyo.com',
+                'Cookie': cookies[no]
+            }
 
     res = req.to_python(req.request(
         'get',
@@ -110,6 +110,17 @@ for no in range(len(cookies)):
             author_name = 'Ai-chan'
             author_url = 'https://honkaiimpact3.hoyoverse.com/global/en-us'
             author_icon = 'https://img-os-static.hoyolab.com/communityWeb/upload/bbb364aaa7d51d168c96aaa6a1939cba.png'
+        elif account_list[index].get('game_biz', '') == 'hkrpg_global':
+            logging.info('Honkai: Star Rail Account found in server {}'.format(region_name))
+            act_id = 'e202303301540311'
+            info_url = 'https://sg-public-api.hoyolab.com/event/luna/info?act_id={}'.format(act_id) 
+            reward_url = 'https://sg-public-api.hoyolab.com/event/luna/home?act_id={}'.format(act_id)
+            sign_url = 'https://sg-public-api.hoyolab.com/event/luna/sign?act_id={}'.format(act_id)
+            suffix = 'Trailblazer'
+            color = 'DEB5CA'
+            author_name = 'Honkai: Star Rail'
+            author_url = 'https://hsr.hoyoverse.com/en-us/'
+            author_icon = 'https://cdn.discordapp.com/attachments/1061002159543562331/1100953081715368068/OIP.png'
         else:
             logging.error('Genshin Or Honkai Account not found !')
             exit(1)
